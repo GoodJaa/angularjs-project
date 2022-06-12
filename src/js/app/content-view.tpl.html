@@ -1,2 +1,46 @@
-<some-1></some-1>
-Content
+<some-1 data="model.originalData"></some-1>
+<div class="content">
+    <div class="content__filters">
+        <div>
+            Order:
+            <select class="form-control"
+                    ng-model="model.displayOptions.order"
+                    ng-options="el.order for el in orderAttrs"
+                    ng-change="sortingElements(model.displayOptions.order)">
+            </select>
+        </div>
+        <div>
+            <label>
+                Only date
+                <input type="checkbox"
+                       ng-model="model.displayOptions.onlyDate">
+            </label>
+        </div>
+        <div>
+            <label>
+                Search
+                <input type="text"
+                       ng-model="model.displayOptions.searchValue"
+                       ng-change="searchElement(model.displayOptions.searchValue)">
+            </label>
+        </div>
+    </div>
+    <div class="content__elements">
+        <div class="content__element" ng-repeat="el in model.filteringData" ng-click="showElementDetails(el)">
+            <div>
+                <span>Title: {{el.title}}</span>
+            </div>
+            <div>
+                <span>Date: {{showDate(el.date)}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="content__new-element">
+        <label>
+            New title
+            <input type="text"
+                   ng-model="model.newTitle">
+        </label>
+        <button ng-click="addNewTitle(model.newTitle)">Add</button>
+    </div>
+</div>

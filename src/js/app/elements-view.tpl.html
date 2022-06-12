@@ -4,6 +4,17 @@
     <button type="submit">Set</button>
   </form>
 </div>
-<div>
-  Elements
+<div class="elements">
+  <button class="elements__button">BUTTON</button>
+  <div ng-if="elements.length"
+       ng-repeat="element in elements"
+       class="element"
+       ng-mouseenter="mouseHover(element.id)"
+       ng-mouseleave="mouseHover(element.id)">
+    <div class="element__text">{{element.title}}</div>
+    <div class="element__blocks" ng-if="isVisebleBlocks[element.id]">
+      <div class="element__block"></div>
+      <div class="element__block"></div>
+    </div>
+  </div>
 </div>

@@ -4,7 +4,71 @@ elements-view {
   display: block;
 }
 
+.hover() {
+  transition: .3;
+  background-color: @c-gray-light;
+}
+
+.width() {
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+}
+
 .elements-view__ctrls {
   padding: 10px;
   border-bottom: 1px solid @c-gray;
+}
+
+.elements {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  &__button {
+    .width();
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 24px;
+    padding: 9px 14px;
+    border: 2px solid @c-dark;
+    border-radius: 5px;
+    background: #fff;
+    &:hover {
+      .hover()
+    }
+  }
+
+  & .element {
+    cursor: pointer;
+    .width();
+    padding: 5px 24px;
+    border-top: 1px solid @c-gray;
+    display: flex;
+    justify-content: space-between;
+    &:last-child {
+      border-bottom: 1px solid @c-gray;
+    }
+    &:hover {
+      .hover()
+    }
+    &__text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    &__blocks {
+      display: flex;
+    }
+    &__block {
+      width: 20px;
+      height: 20px;
+      background: @c-gray;
+      &:first-child {
+        margin-right: 12px;
+      }
+    }
+  }
 }

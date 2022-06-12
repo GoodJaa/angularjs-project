@@ -7,4 +7,30 @@ sidebar-view {
   width: @sidebar-width + @border-size;
   border-left: @border-size solid @c-gray;
   box-sizing: border-box;
+
+  .tags {
+    margin-bottom: 12px;
+  }
+
+  .tag-wrapper {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid @c-gray;
+    &:last-child {
+      border-bottom: 1px solid @c-gray;
+    }
+    & .tag {
+      margin-right: 10px;
+    }
+  }
+
+  .remove-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: @c-gray-light;
+    padding: 8px 11px;
+    border: none
+  }
 }

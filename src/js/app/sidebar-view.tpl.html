@@ -1,1 +1,11 @@
 Sidebar
+<div>Selected: {{elementDetails.title}}</div>
+<div class="tags">
+    <div>Tags:</div>
+    <div class="tag-wrapper" ng-repeat="tag in elementDetails.tags">
+        <div class="tag">{{tag}}</div>
+        <button class="remove-button" ng-click="removeTag(tag)">x</button>
+    </div>
+</div>
+<input type="text" ng-model="tags">
+<button ng-click="addNewTags(tags)">Add</button>
