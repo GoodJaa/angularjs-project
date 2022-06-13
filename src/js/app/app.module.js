@@ -69,7 +69,11 @@ angular.module("app", ["templates"])
             date: new Date().toISOString()
           }
           $scope.model.originalData.push(newElement);
-          $scope.model.filteringData = [...$scope.model.originalData];
+          if ($scope.searchTitle) {
+            $scope.searchElement($scope.searchTitle);
+          } else {
+            $scope.model.filteringData = [...$scope.model.originalData];
+          }
           $scope.sortingElements($scope.model.displayOptions.order);
           $scope.model.newTitle = ''
         }
@@ -82,6 +86,7 @@ angular.module("app", ["templates"])
       };
 
       $scope.searchElement = (title) => {
+        $scope.searchTitle = title;
         $scope.model.filteringData = $scope.model.originalData.filter(el => ~el.title.indexOf(title));
       };
 
@@ -109,23 +114,30 @@ angular.module("app", ["templates"])
     };
     function sidebarViewCtrl($scope) {
       $scope.tags = '';
+      $scope.showWarning = false;
 
       $scope.$watch(() => {
         $scope.elementDetails = transferElementDetails.getElementDetails()
       })
 
       $scope.addNewTags = (tag) => {
+        let tags = $scope.elementDetails.tags;
         if (tag) {
-          $scope.elementDetails.tags.push(tag);
-          transferElementDetails.setElementDetails($scope.elementDetails);
-          $scope.tags = '';
+          if (!tags.includes(tag)) {
+            tags.push(tag);
+            transferElementDetails.setElementDetails($scope.elementDetails);
+            $scope.tags = '';
+            $scope.showWarning = false;
+          } else {
+            $scope.showWarning = true;
+          }
         }
       }
 
       $scope.removeTag = (tag) => {
         if (tag) {
           let tags = $scope.elementDetails.tags;
-          tags.splice(tags.findIndex(el => el === tag));
+          tags.splice(tags.findIndex(el => el === tag), 1);
           transferElementDetails.setElementDetails($scope.elementDetails);
         }
       }
@@ -211,18 +223,21 @@ angular.module("app", ["templates"])
       controller: ["$scope", summaryViewCtrl]
     };
     function summaryViewCtrl ($scope) {
+      const data = [...$scope.data];
+
       $scope.$watch('data', () => {
         $scope.lastElement = getLastElement();
       }, true);
 
-      $scope.getElementTagsString = (element) => {
-        if (element && element.tags && element.tags.length) {
-          return element.tags.join(', ')
+      $scope.getUnicElementsTags = (data) => {
+        if (data.length) {
+          let tags = data.reduce((acc, el) => [...acc, ...el.tags], []);
+          let unicTags = [...new Set(tags)].join(', ');
+          return unicTags;
         }
       };
 
       function getLastElement() {
-        let data = [...$scope.data];
         return data.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))[0]
       }
     }

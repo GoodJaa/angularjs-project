@@ -1,19 +1,8 @@
 @import "variables";
+@import "mixins";
 
 elements-view {
   display: block;
-}
-
-.hover() {
-  transition: .3;
-  background-color: @c-gray-light;
-}
-
-.width() {
-  width: 100%;
-  width: -moz-available;
-  width: -webkit-fill-available;
-  width: fill-available;
 }
 
 .elements-view__ctrls {
@@ -29,6 +18,8 @@ elements-view {
 
   &__button {
     .width();
+    font-size: 16px;
+    cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 24px;
@@ -37,7 +28,8 @@ elements-view {
     border-radius: 5px;
     background: #fff;
     &:hover {
-      .hover()
+      .hover();
+      border-color: @c-gray;
     }
   }
 
@@ -58,6 +50,7 @@ elements-view {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      margin-right: 12px;
     }
     &__blocks {
       display: flex;

@@ -1,45 +1,36 @@
 @import "variables";
+@import "mixins";
 
 content-view {
   display: block;
   border-left: 1px solid @c-gray;
 
-.border() {
-  border-bottom: 1px solid @c-dark;
-  padding: @pad;
-}
-
-.hover() {
-  transition: .3;
-  background-color: @c-gray-light;
-}
-
-.summary {
-  .border();
-}
-
-.content__elements {
-  & .content__element {
+  .summary {
     .border();
-    border-color: @c-gray-light;
-    border-top: none;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    &:hover {
-      .hover();
-    }
-    &:last-child {
-      border-bottom: 1px solid @c-dark;
+  }
+
+  .content__elements {
+    & .content__element {
+      .border();
+      border-color: @c-gray-light;
+      border-top: none;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      &:hover {
+        .hover();
+      }
+      &:last-child {
+        border-bottom: 1px solid @c-dark;
+      }
     }
   }
-}
 
-.content__new-element {
-  .border();
-}
+  .content__new-element {
+    .border();
+  }
 
-.content__filters {
-  .border();
-}
+  .content__filters {
+    .border();
+  }
 }

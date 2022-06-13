@@ -1,5 +1,5 @@
 Sidebar
-<div>Selected: {{elementDetails.title}}</div>
+<div class="title">Selected: {{elementDetails.title}}</div>
 <div class="tags">
     <div>Tags:</div>
     <div class="tag-wrapper" ng-repeat="tag in elementDetails.tags">
@@ -9,3 +9,4 @@ Sidebar
 </div>
 <input type="text" ng-model="tags">
 <button ng-click="addNewTags(tags)">Add</button>
+<div class="warning-message" ng-if="showWarning">This tag is exists in the selected element</div>
