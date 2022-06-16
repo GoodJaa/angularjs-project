@@ -4,11 +4,19 @@ angular.module("app", ["templates"])
       scope: {},
       restrict: "E",
       templateUrl: "./js/app/app.tpl.html",
+      controller: ["$scope", appCtl]
     };
+    function appCtl($scope) {
+      $scope.model = {
+        elementDetails: {}
+      }
+    }
   })
-  .directive("contentView", ["transferElementDetails", (transferElementDetails) => {
+  .directive("contentView", () => {
     return {
-      scope: {},
+      scope: {
+        elementDetails: '='
+      },
       restrict: "E",
       templateUrl: "./js/app/content-view.tpl.html",
       controller: ["$scope", contentViewCtrl],
@@ -81,7 +89,7 @@ angular.module("app", ["templates"])
 
       $scope.showElementDetails = (element) => {
         if (element && Object.keys(element).length) {
-          transferElementDetails.setElementDetails(element)
+          $scope.elementDetails = element
         }
       };
 
@@ -91,23 +99,13 @@ angular.module("app", ["templates"])
       };
 
       $scope.sortingElements($scope.orderAttrs[0]);
-
-      $scope.$watch(() => {
-        let elementDetails = transferElementDetails.getElementDetails();
-        updateElementTags(elementDetails);
-      })
-
-      function updateElementTags(elementDetails) {
-        if (elementDetails) {
-          let desiredElement = $scope.model.originalData.find(el => el.id === elementDetails.id);
-          desiredElement.tags = elementDetails.tags;
-        }
-      }
     }
-  }])
-  .directive("sidebarView", ["transferElementDetails", (transferElementDetails) => {
+  })
+  .directive("sidebarView", () => {
     return {
-      scope: {},
+      scope: {
+        elementDetails: '='
+      },
       restrict: "E",
       templateUrl: "./js/app/sidebar-view.tpl.html",
       controller: ["$scope", sidebarViewCtrl]
@@ -116,16 +114,11 @@ angular.module("app", ["templates"])
       $scope.tags = '';
       $scope.showWarning = false;
 
-      $scope.$watch(() => {
-        $scope.elementDetails = transferElementDetails.getElementDetails()
-      })
-
       $scope.addNewTags = (tag) => {
         let tags = $scope.elementDetails.tags;
         if (tag) {
           if (!tags.includes(tag)) {
             tags.push(tag);
-            transferElementDetails.setElementDetails($scope.elementDetails);
             $scope.tags = '';
             $scope.showWarning = false;
           } else {
@@ -138,11 +131,10 @@ angular.module("app", ["templates"])
         if (tag) {
           let tags = $scope.elementDetails.tags;
           tags.splice(tags.findIndex(el => el === tag), 1);
-          transferElementDetails.setElementDetails($scope.elementDetails);
         }
       }
     }
-  }])
+  })
   .directive("elementsView", () => {
     return {
       scope: {},
@@ -240,22 +232,6 @@ angular.module("app", ["templates"])
       function getLastElement() {
         return data.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))[0]
       }
-    }
-  })
-  .service("transferElementDetails", () => {
-    let elementDetails;
-
-    function getElementDetails() {
-      return elementDetails;
-    }
-
-    function setElementDetails(details) {
-      elementDetails = details;
-    }
-
-    return {
-      getElementDetails: getElementDetails,
-      setElementDetails: setElementDetails
     }
   });
 
